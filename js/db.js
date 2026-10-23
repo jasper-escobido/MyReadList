@@ -23,3 +23,22 @@ return new Promise((resolve, reject) => {
     
     })
 }
+
+async function addBook(book) {   
+    const db = await openDB();
+    const tx = db.transaction("books",  "readwrite");
+    const store = tx.objectStore("books");
+    const req = store.add(book);
+
+    return new Promise((resolve, reject) => {
+
+        req.onsuccess = () => {
+        resolve(req.result);
+        }
+
+        req.onerror = () =>  {
+        reject(req.error);
+        }
+
+    })
+}
