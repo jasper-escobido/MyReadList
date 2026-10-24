@@ -42,3 +42,25 @@ async function addBook(book) {
 
     })
 }
+
+async function getAllBooks() {
+    const db= await openDB();
+    const tx = db.transaction("books", "readonly");
+    const store = tx.objectStore("books");
+    const req = store.getAll();
+    
+    return new Promise((resolve, reject) => {
+
+        req.onsuccess = () => {
+            resolve(req.result);
+        }
+
+        req.onerror = () => {
+            reject(req.error);
+        }
+    })
+    
+
+}
+
+
